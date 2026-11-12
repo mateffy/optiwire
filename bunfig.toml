@@ -1,0 +1,9 @@
+[test]
+coverage = true
+root = "tests/js"
+preload = ["./tests/js/setup.js"]
+coverageSkipTestFiles = true
+coveragePathIgnorePatterns = ["vendor/**", "tests/**", "node_modules/**"]
+coverageThreshold = { lines = 1.0, functions = 1.0 }
+coverageReporter = ["text", "lcov"]
+coverageDir = "build/js-coverage"

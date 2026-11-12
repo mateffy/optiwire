@@ -2,9 +2,9 @@
 
 namespace Capevace\OptimisticUI\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Capevace\OptimisticUI\OptimisticServiceProvider;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Capevace\OptimisticUI\LivewireOptimismServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -12,25 +12,24 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Capevace\\LivewireOptimism\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        // Livewire keeps rendered assets in static state that it flushes per
+        // request in real apps; tests share one process.
+        app('livewire')->flushState();
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LivewireOptimismServiceProvider::class,
+            LivewireServiceProvider::class,
+            OptimisticServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
-        config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_livewire-optimistic-ui_table.php.stub';
-        $migration->up();
-        */
+        $app['config']->set('app.key', 'base64:'.base64_encode(str_repeat('a', 32)));
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('cache.default', 'array');
+        $app['config']->set('view.paths', [__DIR__.'/Fixtures/views']);
     }
 }

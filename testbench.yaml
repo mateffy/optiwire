@@ -1,0 +1,40 @@
+laravel: '@testbench'
+
+providers:
+  - Livewire\LivewireServiceProvider
+  - Capevace\OptimisticUI\OptimisticServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+
+migrations:
+  - workbench/database/migrations
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+env:
+  - APP_NAME="Optimistic UI"
+  - APP_KEY=base64:Q2FwZXZhY2VPcHRpbWlzdGljVUlEZW1vS2V5MTIzNDU=
+  - APP_DEBUG=true
+  - DB_CONNECTION=sqlite
+  - SESSION_DRIVER=file
+  - CACHE_STORE=file
+
+workbench:
+  start: '/'
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: false
+    commands: false
+    components: false
+    views: true
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh:
+        --seed: true
+        --seeder: Workbench\Database\Seeders\DatabaseSeeder
+  assets: []
+  sync: []

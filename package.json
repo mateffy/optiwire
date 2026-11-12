@@ -1,0 +1,14 @@
+{
+  "name": "livewire-optimistic-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build resources/js/index.js --outfile dist/optimistic.js --format iife --minify-syntax && bun build resources/js/index.js --outfile dist/optimistic.esm.js --format esm",
+    "test": "bun test --coverage"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^20.0.0",
+    "happy-dom": "^20.0.0",
+    "playwright": "^1.63.0"
+  }
+}
