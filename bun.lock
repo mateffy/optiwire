@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "livewire-optimistic-ui",
+      "name": "optiwire",
       "devDependencies": {
         "@happy-dom/global-registrator": "^20.0.0",
         "happy-dom": "^20.0.0",

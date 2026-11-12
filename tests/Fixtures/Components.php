@@ -1,8 +1,8 @@
 <?php
 
-namespace Capevace\OptimisticUI\Tests\Fixtures;
+namespace Mateffy\Optiwire\Tests\Fixtures;
 
-use Capevace\OptimisticUI\Optimistic;
+use Mateffy\Optiwire\Optimistic;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Computed;

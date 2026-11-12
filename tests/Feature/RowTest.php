@@ -1,10 +1,10 @@
 <?php
 
-use Capevace\OptimisticUI\Row;
-use Capevace\OptimisticUI\Tests\Fixtures\Rows;
-use Capevace\OptimisticUI\Tests\Fixtures\RowsWithCustomKey;
-use Capevace\OptimisticUI\Tests\Fixtures\RowsWithoutLists;
-use Capevace\OptimisticUI\Tests\Fixtures\Task;
+use Mateffy\Optiwire\Row;
+use Mateffy\Optiwire\Tests\Fixtures\Rows;
+use Mateffy\Optiwire\Tests\Fixtures\RowsWithCustomKey;
+use Mateffy\Optiwire\Tests\Fixtures\RowsWithoutLists;
+use Mateffy\Optiwire\Tests\Fixtures\Task;
 use Illuminate\Support\Carbon;
 use Livewire\Livewire;
 

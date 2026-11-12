@@ -1,6 +1,6 @@
 <?php
 
-namespace Capevace\OptimisticUI;
+namespace Mateffy\Optiwire;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
@@ -17,8 +17,8 @@ class Row
     public static function attributes(mixed $item, array $extra = []): string
     {
         $component = Livewire::current() ?: null;
-        $keyField = SupportOptimisticUI::keyFieldFor($component);
-        $fields = array_values(array_unique([...SupportOptimisticUI::rowFieldsFor($component), ...$extra]));
+        $keyField = SupportOptiwire::keyFieldFor($component);
+        $fields = array_values(array_unique([...SupportOptiwire::rowFieldsFor($component), ...$extra]));
 
         $key = $item instanceof Model ? $item->getKey() : data_get($item, $keyField);
         $serialized = $item instanceof Arrayable ? $item->toArray() : (array) $item;
@@ -28,7 +28,7 @@ class Row
         foreach ($fields as $field) {
             $value = data_get($serialized, $field, fn () => data_get($item, $field));
 
-            $data[$field] = $value instanceof DateTimeInterface ? $value->format(DATE_ATOM) : SupportOptimisticUI::serialize($value);
+            $data[$field] = $value instanceof DateTimeInterface ? $value->format(DATE_ATOM) : SupportOptiwire::serialize($value);
         }
 
         return sprintf(

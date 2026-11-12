@@ -1,9 +1,9 @@
 <?php
 
-use Capevace\OptimisticUI\SupportOptimisticUI;
-use Capevace\OptimisticUI\Tests\Fixtures\BadKey;
-use Capevace\OptimisticUI\Tests\Fixtures\Kitchen;
-use Capevace\OptimisticUI\Tests\Fixtures\Plain;
+use Mateffy\Optiwire\SupportOptiwire;
+use Mateffy\Optiwire\Tests\Fixtures\BadKey;
+use Mateffy\Optiwire\Tests\Fixtures\Kitchen;
+use Mateffy\Optiwire\Tests\Fixtures\Plain;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -119,26 +119,26 @@ it('injects the client script on full pages that use optimistic features', funct
 
     $this->get('/with')
         ->assertOk()
-        ->assertSee('livewire-optimistic-ui/optimistic.js?v=', false)
+        ->assertSee('optiwire/optiwire.js?v=', false)
         ->assertSee('window.optimisticConfig = Object.assign({"timeout":30000', false);
 
     app('livewire')->flushState();
 
     $this->get('/without')
         ->assertOk()
-        ->assertDontSee('livewire-optimistic-ui/optimistic.js', false);
+        ->assertDontSee('optiwire/optiwire.js', false);
 });
 
 it('can leave asset injection to the app', function () {
-    config()->set('livewire-optimistic-ui.inject_assets', false);
+    config()->set('optiwire.inject_assets', false);
     Livewire::component('kitchen', Kitchen::class);
     Route::get('/with', fn () => Blade::render('<html><head></head><body><livewire:kitchen /></body></html>'))->middleware('web');
 
-    $this->get('/with')->assertOk()->assertDontSee('livewire-optimistic-ui/optimistic.js', false);
+    $this->get('/with')->assertOk()->assertDontSee('optiwire/optiwire.js', false);
 });
 
 it('serves the client script', function () {
-    $this->get('/livewire-optimistic-ui/optimistic.js')
+    $this->get('/optiwire/optiwire.js')
         ->assertOk()
         ->assertHeader('Content-Type', 'application/javascript; charset=utf-8');
 });

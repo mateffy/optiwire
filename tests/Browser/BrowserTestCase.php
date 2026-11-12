@@ -1,6 +1,6 @@
 <?php
 
-namespace Capevace\OptimisticUI\Tests\Browser;
+namespace Mateffy\Optiwire\Tests\Browser;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\Concerns\WithWorkbench;

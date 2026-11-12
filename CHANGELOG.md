@@ -1,10 +1,10 @@
 # Changelog
 
-All notable changes to `livewire-optimistic-ui` will be documented in this file.
+All notable changes to `mateffy/optiwire` will be documented in this file.
 
-## 2.0.0 (unreleased)
+## Unreleased
 
-A rewrite that integrates directly with Livewire 4 instead of sitting on top of it.
+First release as `mateffy/optiwire`, the successor of `capevace/livewire-optimistic-ui`. A rewrite that integrates directly with Livewire 4 instead of sitting on top of it.
 
 - `#[Optimistic]`, `Optimistic\Create`, `Update`, `Delete` on actions; `Ordered`, `Expose`, `Defaults`, `On` for lists, data and cross-component patches. No wrapper component, no trait.
 - Client script injected automatically; hooks into Livewire's action/message interceptors and morph lifecycle.

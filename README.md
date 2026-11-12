@@ -1,13 +1,15 @@
-# Livewire Optimistic UI
+# Optiwire - Optimistic UI extension for Livewire
 
 > [!WARNING]
-> **This README documents the unreleased 2.0 rewrite on `main`, not the version on Packagist.**
-> 2.0 is a full rewrite that integrates directly into Livewire 4. The 1.x API (`WithOptimisticUI`, `<x-optimistic::injector>`, `$optimistic.addTask(…)`) has been removed. 1.x had only a handful of installs, so there is no migration guide. If you are on 1.x, pin `^1.0` until 2.0 is tagged.
+> **Optiwire hasn't been tagged yet. This README documents `main`.**
+> Optiwire is the successor of [`capevace/livewire-optimistic-ui`](https://github.com/capevace/livewire-optimistic-ui), rewritten from scratch to integrate directly into Livewire 4. The old API (`WithOptimisticUI`, `<x-optimistic::injector>`, `$optimistic.addTask(…)`) is gone. The old package had only a handful of installs, so there is no migration guide.
 
-Mark a Livewire action `#[Optimistic]` and the page updates as soon as the user clicks, before the server answers. When the server confirms, its data takes over. When the request fails, times out or the server says no, the change is rolled back.
+Optiwire adds **optimistic updates** to [Laravel Livewire](https://livewire.laravel.com). Mark a Livewire action `#[Optimistic]` and the UI updates as soon as the user clicks, before the server round trip finishes. When the server confirms, its data takes over. When the request fails, times out or the server rejects it, the change is **rolled back automatically**.
+
+Your app feels as fast as a client-side SPA (React's `useOptimistic`, TanStack Query's optimistic mutations), but the server stays the source of truth and you keep writing plain Livewire components in PHP and Blade.
 
 ```php
-use Capevace\OptimisticUI\Optimistic;
+use Mateffy\Optiwire\Optimistic;
 
 #[Optimistic('$wire.liked = !$wire.liked; $wire.likes += $wire.liked ? 1 : -1')]
 public function toggleLike() { … }
@@ -17,7 +19,20 @@ public function toggleLike() { … }
 <button wire:click="toggleLike">♥ <span wire:text="likes">{{ $likes }}</span></button>
 ```
 
-You don't need a wrapper component, a trait or any extra JavaScript. The package hooks into Livewire 4 directly: the action and message interceptors, the component memo and the morph lifecycle. Its client script is injected automatically on pages that use it.
+You don't need a wrapper component, a trait or any extra JavaScript. Optiwire hooks into Livewire 4 directly: the action and message interceptors, the component memo and the morph lifecycle. Its client script is injected automatically on pages that use it.
+
+**Features:**
+
+- **Optimistic create, update and delete** for lists rendered with Blade `@foreach` or Alpine `x-for`, including sorted inserts, kanban-style moves between columns and moves between two lists.
+- **Optimistic property updates** for counters, toggles, likes, votes and settings, written as one line of JS against `$wire`.
+- **Automatic rollback** on network errors, 5xx responses, timeouts, validation errors and server-side rejections.
+- **Undo** (delayed actions), **retry** for failed messages, and **squashing** of debounced inputs.
+- **Pending and failed states** as Livewire directives (`wire:optimistic.class`, `wire:optimistic.show.failed`) instead of hand-rolled loading indicators.
+- **Idempotent retries**: every optimistic action has an id, so a lost response never runs an action twice.
+- **Cross-component updates**: a notification badge in another Livewire component updates together with the list.
+- **Instant image previews** for Livewire file uploads.
+
+**Why optimistic UI in Livewire?** Every Livewire action is a network round trip. On a fast connection that's barely noticeable, but on mobile networks or with a slow backend, every checkbox, like button or "add to cart" waits for the server. `wire:loading` can only tell the user that they're waiting. Optimistic updates remove the wait for actions that almost always succeed, and Optiwire handles the hard part: what happens when one doesn't succeed, or when responses arrive out of order.
 
 - [Installation](#installation)
 - [How it works](#how-it-works)
@@ -34,10 +49,10 @@ You don't need a wrapper component, a trait or any extra JavaScript. The package
 ## Installation
 
 ```bash
-composer require capevace/livewire-optimistic-ui:dev-main
+composer require mateffy/optiwire:dev-main
 ```
 
-Requires PHP 8.3+, Laravel 12 or 13 and Livewire 4.4+. The service provider is auto-discovered and the client script is injected on any page that renders an optimistic component. Set `inject_assets` to `false` to include `/livewire-optimistic-ui/optimistic.js` yourself.
+Requires PHP 8.3+, Laravel 12 or 13 and Livewire 4.4+. The service provider is auto-discovered and the client script is injected on any page that renders an optimistic component. Set `inject_assets` to `false` to include `/optiwire/optiwire.js` yourself.
 
 ## How it works
 
@@ -506,12 +521,12 @@ window.addEventListener('optimistic:change', e => e.detail.entries)
 ## Configuration
 
 ```bash
-php artisan vendor:publish --tag=livewire-optimistic-ui-config
+php artisan vendor:publish --tag=optiwire-config
 ```
 
 ```php
 'inject_assets' => true,
-'route' => 'livewire-optimistic-ui/optimistic.js',
+'route' => 'optiwire/optiwire.js',
 'idempotency' => ['enabled' => true, 'ttl' => 600, 'store' => null],   // cache store for finished action ids
 'client' => ['timeout' => 30000, 'warnOnUnload' => true, 'linkTimeout' => 5000, 'failedTtl' => 0],
 ```

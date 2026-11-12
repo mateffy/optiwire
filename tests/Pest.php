@@ -1,7 +1,7 @@
 <?php
 
-use Capevace\OptimisticUI\Tests\Browser\BrowserTestCase;
-use Capevace\OptimisticUI\Tests\TestCase;
+use Mateffy\Optiwire\Tests\Browser\BrowserTestCase;
+use Mateffy\Optiwire\Tests\TestCase;
 
 require_once __DIR__.'/Fixtures/Components.php';
 

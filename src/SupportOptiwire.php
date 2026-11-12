@@ -1,12 +1,12 @@
 <?php
 
-namespace Capevace\OptimisticUI;
+namespace Mateffy\Optiwire;
 
-use Capevace\OptimisticUI\Optimistic\Action;
-use Capevace\OptimisticUI\Optimistic\Defaults;
-use Capevace\OptimisticUI\Optimistic\Expose;
-use Capevace\OptimisticUI\Optimistic\On;
-use Capevace\OptimisticUI\Optimistic\Ordered;
+use Mateffy\Optiwire\Optimistic\Action;
+use Mateffy\Optiwire\Optimistic\Defaults;
+use Mateffy\Optiwire\Optimistic\Expose;
+use Mateffy\Optiwire\Optimistic\On;
+use Mateffy\Optiwire\Optimistic\Ordered;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -19,7 +19,7 @@ use ReflectionMethod;
 
 use function Livewire\on;
 
-class SupportOptimisticUI extends ComponentHook
+class SupportOptiwire extends ComponentHook
 {
     /**
      * The optimistic action currently being executed: ['id' => ..., 'key' => ...].
@@ -79,7 +79,7 @@ class SupportOptimisticUI extends ComponentHook
 
             $this->cache()->put($cacheKey, [
                 'return' => is_scalar($return) || is_array($return) ? $return : null,
-            ], (int) config('livewire-optimistic-ui.idempotency.ttl', 600));
+            ], (int) config('optiwire.idempotency.ttl', 600));
         };
     }
 
@@ -115,8 +115,8 @@ class SupportOptimisticUI extends ComponentHook
             $context->addEffect('optimistic', ['rejected' => $this->storeGet('optimistic-rejected')]);
         }
 
-        if (config('livewire-optimistic-ui.inject_assets', true)) {
-            SupportScriptsAndAssets::$renderedAssets['livewire-optimistic-ui'] = static::scriptTag();
+        if (config('optiwire.inject_assets', true)) {
+            SupportScriptsAndAssets::$renderedAssets['optiwire'] = static::scriptTag();
         }
     }
 
@@ -132,26 +132,26 @@ class SupportOptimisticUI extends ComponentHook
 
     protected function idempotencyKey(string $actionId): ?string
     {
-        if (! config('livewire-optimistic-ui.idempotency.enabled', true)) {
+        if (! config('optiwire.idempotency.enabled', true)) {
             return null;
         }
 
         $session = app()->bound('session') && session()->isStarted() ? session()->getId() : 'stateless';
 
-        return 'livewire-optimistic-ui:'.hash('sha256', $session.'|'.$this->component->getName().'|'.$actionId);
+        return 'optiwire:'.hash('sha256', $session.'|'.$this->component->getName().'|'.$actionId);
     }
 
     protected function cache()
     {
-        return Cache::store(config('livewire-optimistic-ui.idempotency.store'));
+        return Cache::store(config('optiwire.idempotency.store'));
     }
 
     public static function scriptTag(): string
     {
         $path = static::scriptPath();
         $version = substr(md5((string) filemtime($path)), 0, 8);
-        $url = url(config('livewire-optimistic-ui.route', 'livewire-optimistic-ui/optimistic.js')).'?v='.$version;
-        $client = json_encode((object) config('livewire-optimistic-ui.client', []), JSON_HEX_TAG);
+        $url = url(config('optiwire.route', 'optiwire/optiwire.js')).'?v='.$version;
+        $client = json_encode((object) config('optiwire.client', []), JSON_HEX_TAG);
 
         return "<script>window.optimisticConfig = Object.assign({$client}, window.optimisticConfig || {})</script>\n"
             ."<script src=\"{$url}\" data-navigate-once></script>";

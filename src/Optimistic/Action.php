@@ -1,6 +1,6 @@
 <?php
 
-namespace Capevace\OptimisticUI\Optimistic;
+namespace Mateffy\Optiwire\Optimistic;
 
 use Livewire\Attribute;
 use ReflectionParameter;

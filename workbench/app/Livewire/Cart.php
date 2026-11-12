@@ -2,7 +2,7 @@
 
 namespace Workbench\App\Livewire;
 
-use Capevace\OptimisticUI\Optimistic;
+use Mateffy\Optiwire\Optimistic;
 use Livewire\Component;
 use Workbench\App\Models\Kv;
 use Workbench\App\Models\Product;

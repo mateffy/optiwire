@@ -2,7 +2,7 @@
 
 namespace Workbench\App\Livewire;
 
-use Capevace\OptimisticUI\Optimistic;
+use Mateffy\Optiwire\Optimistic;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;

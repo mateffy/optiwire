@@ -2,7 +2,7 @@ laravel: '@testbench'
 
 providers:
   - Livewire\LivewireServiceProvider
-  - Capevace\OptimisticUI\OptimisticServiceProvider
+  - Mateffy\Optiwire\OptiwireServiceProvider
   - Workbench\App\Providers\WorkbenchServiceProvider
 
 migrations:

@@ -1,8 +1,8 @@
 <?php
 
-use Capevace\OptimisticUI\Optimistic;
-use Capevace\OptimisticUI\SupportOptimisticUI;
-use Capevace\OptimisticUI\Tests\Fixtures\Kitchen;
+use Mateffy\Optiwire\Optimistic;
+use Mateffy\Optiwire\SupportOptiwire;
+use Mateffy\Optiwire\Tests\Fixtures\Kitchen;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
@@ -45,7 +45,7 @@ it('exposes the client key and marks the call as optimistic', function () {
     $component = optimisticCall(Livewire::test(Kitchen::class), 'add', [$key, 'Milk'], ['id' => (string) Str::uuid7(), 'injected' => 0]);
 
     expect($component->get('log'))->toBe(["add:{$key}:Milk:{$key}:active"])
-        ->and(SupportOptimisticUI::$current)->toBeNull()
+        ->and(SupportOptiwire::$current)->toBeNull()
         ->and(Optimistic::active())->toBeFalse();
 });
 
@@ -97,7 +97,7 @@ it('scopes remembered actions to the session', function () {
 });
 
 it('can be configured to not remember actions', function () {
-    config()->set('livewire-optimistic-ui.idempotency.enabled', false);
+    config()->set('optiwire.idempotency.enabled', false);
 
     $component = Livewire::test(Kitchen::class);
     $meta = ['id' => (string) Str::uuid7()];
@@ -109,8 +109,8 @@ it('can be configured to not remember actions', function () {
 });
 
 it('uses the configured cache store and ttl', function () {
-    config()->set('livewire-optimistic-ui.idempotency.store', 'array');
-    config()->set('livewire-optimistic-ui.idempotency.ttl', 5);
+    config()->set('optiwire.idempotency.store', 'array');
+    config()->set('optiwire.idempotency.ttl', 5);
 
     $component = Livewire::test(Kitchen::class);
     optimisticCall($component, 'bump', [], ['id' => (string) Str::uuid7()]);
@@ -168,18 +168,18 @@ it('lets other exceptions through untouched', function () {
     expect(fn () => optimisticCall($component, 'crash', [], ['id' => (string) Str::uuid7()]))
         ->toThrow(RuntimeException::class, 'Boom');
 
-    expect(SupportOptimisticUI::$current)->toBeNull();
+    expect(SupportOptiwire::$current)->toBeNull();
 });
 
 it('lets rejections outside of optimistic calls through', function () {
     expect(fn () => Livewire::test(Kitchen::class)->call('plainReject'))
-        ->toThrow(\Capevace\OptimisticUI\OptimisticRejection::class, 'Outside');
+        ->toThrow(\Mateffy\Optiwire\OptimisticRejection::class, 'Outside');
 });
 
 it('forgets the current action between requests', function () {
-    SupportOptimisticUI::$current = ['id' => 'stale', 'key' => 'stale'];
+    SupportOptiwire::$current = ['id' => 'stale', 'key' => 'stale'];
 
     app('livewire')->flushState();
 
-    expect(SupportOptimisticUI::$current)->toBeNull();
+    expect(SupportOptiwire::$current)->toBeNull();
 });

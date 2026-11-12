@@ -1,6 +1,6 @@
 <?php
 
-namespace Capevace\OptimisticUI;
+namespace Mateffy\Optiwire;
 
 use RuntimeException;
 

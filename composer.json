@@ -1,13 +1,16 @@
 {
-    "name": "capevace/livewire-optimistic-ui",
-    "description": "Optimistic UI for Livewire: mark actions #[Optimistic] and the page updates before the server answers, with automatic rollback.",
+    "name": "mateffy/optiwire",
+    "description": "Optiwire: optimistic UI updates for Laravel Livewire. Mark actions #[Optimistic] and the page updates before the server answers, with automatic rollback, undo and retry.",
     "keywords": [
         "Lukas Mateffy",
         "laravel",
         "livewire",
-        "optimistic-ui"
+        "optimistic-ui",
+        "optimistic-updates",
+        "alpinejs",
+        "optiwire"
     ],
-    "homepage": "https://github.com/capevace/livewire-optimistic-ui",
+    "homepage": "https://github.com/mateffy/optiwire",
     "license": "MIT",
     "authors": [
         {
@@ -31,12 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Capevace\\OptimisticUI\\": "src/"
+            "Mateffy\\Optiwire\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Capevace\\OptimisticUI\\Tests\\": "tests/",
+            "Mateffy\\Optiwire\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
             "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -75,7 +78,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Capevace\\OptimisticUI\\OptimisticServiceProvider"
+                "Mateffy\\Optiwire\\OptiwireServiceProvider"
             ]
         }
     },

@@ -5,7 +5,7 @@ return [
     'inject_assets' => true,
 
     // Where the client script is served from.
-    'route' => 'livewire-optimistic-ui/optimistic.js',
+    'route' => 'optiwire/optiwire.js',
 
     // Remember finished optimistic actions, so retrying a request whose
     // response got lost doesn't run the action twice.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Capevace\OptimisticUI\Tests\Fixtures;
+namespace Mateffy\Optiwire\Tests\Fixtures;
 
 use Illuminate\Database\Eloquent\Model;
 

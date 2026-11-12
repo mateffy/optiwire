@@ -1,9 +1,9 @@
 <?php
 
-namespace Capevace\OptimisticUI;
+namespace Mateffy\Optiwire;
 
 use Attribute;
-use Capevace\OptimisticUI\Optimistic\Action;
+use Mateffy\Optiwire\Optimistic\Action;
 
 /**
  * Marks a Livewire action as optimistic.
@@ -45,7 +45,7 @@ class Optimistic extends Action
      */
     public static function id(): ?string
     {
-        return SupportOptimisticUI::$current['key'] ?? null;
+        return SupportOptiwire::$current['key'] ?? null;
     }
 
     /**
@@ -53,6 +53,6 @@ class Optimistic extends Action
      */
     public static function active(): bool
     {
-        return SupportOptimisticUI::$current !== null;
+        return SupportOptiwire::$current !== null;
     }
 }

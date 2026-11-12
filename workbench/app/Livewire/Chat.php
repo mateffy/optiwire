@@ -2,7 +2,7 @@
 
 namespace Workbench\App\Livewire;
 
-use Capevace\OptimisticUI\Optimistic;
+use Mateffy\Optiwire\Optimistic;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Workbench\App\Models\Message;

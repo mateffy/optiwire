@@ -1,8 +1,8 @@
 <?php
 
-namespace Capevace\OptimisticUI\Tests;
+namespace Mateffy\Optiwire\Tests;
 
-use Capevace\OptimisticUI\OptimisticServiceProvider;
+use Mateffy\Optiwire\OptiwireServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -21,7 +21,7 @@ class TestCase extends Orchestra
     {
         return [
             LivewireServiceProvider::class,
-            OptimisticServiceProvider::class,
+            OptiwireServiceProvider::class,
         ];
     }
 
