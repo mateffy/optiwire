@@ -8,7 +8,7 @@ public function setDone(string $id, bool $done) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="tasks" data-test="blade-list">
             @foreach ($this->tasks as $task)
-                <li @optimisticRow($task, ['done']) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed"
+                <li @optirow($task, ['done']) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed"
                     wire:optimistic.bind.class="$item.done ? 'is-done' : ''">
                     <label>
                         <input type="checkbox" @checked($task->done) wire:optimistic.bind.checked="$item.done"

@@ -142,7 +142,7 @@ The same component can be rendered either way, and both stay in sync.
 ```blade
 <ul wire:optimistic.list="tasks">
   @foreach ($this->tasks as $task)
-    <li @optimisticRow($task)
+    <li @optirow($task)
         wire:optimistic.class="opacity-60"
         wire:optimistic.class.failed="text-red-600">
       {{ $task->text }}
@@ -174,7 +174,7 @@ The same component can be rendered either way, and both stay in sync.
 </td></tr>
 </table>
 
-- **Blade:** `@optimisticRow($task, ['extra', 'fields'])` prints the row's `wire:key` plus the fields the client needs: the sort and group columns and any fields you list. New rows come from the `<template wire:optimistic.create>`. Without one, the source row is copied (`from:`).
+- **Blade:** `@optirow($task, ['extra', 'fields'])` prints the row's `wire:key` plus the fields the client needs: the sort and group columns and any fields you list. New rows come from the `<template wire:optimistic.create>`. Without one, the source row is copied (`from:`).
 - **Alpine:** the data itself is patched, so nothing else is needed. Rows declare their key with `wire:optimistic.key`, because Livewire treats an Alpine-bound `:wire:key` as an event directive.
 
 ## Directives and magics
@@ -232,7 +232,7 @@ public function addTask(string $id, string $text)
 {{-- Blade --}}
 <ul wire:optimistic.list="tasks">
     @foreach ($this->tasks as $task)
-        <li @optimisticRow($task)>{{ $task->text }}</li>
+        <li @optirow($task)>{{ $task->text }}</li>
     @endforeach
     <template wire:optimistic.create>
         <li wire:optimistic.class="opacity-60"><span wire:optimistic.text="text"></span> <span>new</span></li>
@@ -259,7 +259,7 @@ public function deleteTask(string $id) { … }
     Deleted <span x-text="$optimistic.undoable().length"></span>. <button wire:optimistic.undo>Undo</button>
 </div>
 
-{{-- Blade --}}  <li @optimisticRow($task)>{{ $task->text }} <button wire:click="deleteTask('{{ $task->id }}')">×</button></li>
+{{-- Blade --}}  <li @optirow($task)>{{ $task->text }} <button wire:click="deleteTask('{{ $task->id }}')">×</button></li>
 {{-- Alpine --}} <li wire:optimistic.key="task.id"><span x-text="task.text"></span> <button @click="$wire.deleteTask(task.id)">×</button></li>
 ```
 
@@ -278,7 +278,7 @@ public function rename(string $id, string $text)
 
 ```blade
 {{-- Blade --}}
-<li @optimisticRow($task, ['text'])>
+<li @optirow($task, ['text'])>
     <input value="{{ $task->text }}" wire:optimistic.bind.value="$item.text"
            @input.debounce.400ms="$wire.rename('{{ $task->id }}', $el.value)">
     <span wire:optimistic.show.pending>saving…</span>
@@ -309,7 +309,7 @@ public function moveCard(string $id, string $column) { … }
 @foreach (['todo' => 'To do', 'doing' => 'Doing', 'done' => 'Done'] as $column => $label)
     <ul wire:optimistic.list="cards" wire:optimistic.group="{{ $column }}">
         @foreach ($this->cards->where('column', $column) as $card)
-            <li @optimisticRow($card) wire:optimistic.class="opacity-60">
+            <li @optirow($card) wire:optimistic.class="opacity-60">
                 <button @click="$wire.moveCard($item.id, step($item.column, -1))">←</button>
                 {{ $card->title }}
                 <button @click="$wire.moveCard($item.id, step($item.column, 1))">→</button>
@@ -409,7 +409,7 @@ class NavBadge extends Component
 ```
 
 ```blade
-{{-- Blade (list) --}}  <li @optimisticRow($n, ['read_at']) wire:optimistic.bind.class="$item.read_at ? '' : 'font-bold'">{{ $n->title }}</li>
+{{-- Blade (list) --}}  <li @optirow($n, ['read_at']) wire:optimistic.bind.class="$item.read_at ? '' : 'font-bold'">{{ $n->title }}</li>
 {{-- Alpine (list) --}} <li wire:optimistic.key="n.id" :class="! n.read_at && 'font-bold'" x-text="n.title"></li>
 {{-- Badge --}}         <span wire:text="unread" wire:show="unread > 0">{{ $unread }}</span>
 ```
@@ -431,7 +431,7 @@ public function restore(string $id) { … }
 </ul>
 <ul wire:optimistic.list="trash">
     @foreach ($this->trash as $file)
-        <li @optimisticRow($file)>{{ $file->name }} <button wire:click="restore('{{ $file->id }}')">Restore</button></li>
+        <li @optirow($file)>{{ $file->name }} <button wire:click="restore('{{ $file->id }}')">Restore</button></li>
     @endforeach
 </ul>
 

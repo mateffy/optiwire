@@ -8,7 +8,7 @@ public function rename(string $id, string $text) { … Optimistic::reject('A tas
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="tasks" data-test="blade-list">
             @foreach ($this->tasks as $task)
-                <li @optimisticRow($task, ['text']) class="row column-row">
+                <li @optirow($task, ['text']) class="row column-row">
                     <input class="input" value="{{ $task->text }}" wire:optimistic.bind.value="$item.text"
                            @input.debounce.400ms="$wire.rename('{{ $task->id }}', $el.value)"
                            wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">

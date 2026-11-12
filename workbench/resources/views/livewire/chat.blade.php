@@ -16,7 +16,7 @@ public function send(string $id, string $body) { … }
     <x-slot:blade>
         <ul class="chat" wire:optimistic.list="messages" data-test="blade-list">
             @foreach ($this->messages as $message)
-                <li @optimisticRow($message) class="msg">
+                <li @optirow($message) class="msg">
                     <span class="avatar" style="background: {{ $message->avatar }}"></span>
                     <div><b>{{ $message->author }}</b><p>{{ $message->body }}</p></div>
                 </li>

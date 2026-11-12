@@ -8,7 +8,7 @@ The full reference is in the [README](../README.md).
 
 ## 0. Decisions made while implementing
 
-- **`@optimisticRow($item)`**, not `@optimistic-row`: Blade directive names can't contain hyphens (Blade only matches `@\w+`).
+- **`@optirow($item)`**, not `@optimistic-row`: Blade directive names can't contain hyphens (Blade only matches `@\w+`).
 - **No Tailwind `data-[optimistic=…]` in examples.** States are applied with `wire:optimistic.class="…"`, `.class.failed`, `.class.removing`, and so on. Rows still get a `data-optimistic="pending|failed"` attribute, which is handy for global CSS.
 - **x-for rows use `wire:optimistic.key="task.id"`**, not `:wire:key`: Livewire treats any attribute containing `wire:` as a directive, and an Alpine-bound `:wire:key` turns into a broken event binding.
 - **`#[ClientId]` became `#[Optimistic\Key]`**, and you rarely need it. `Create` fills the `$id` parameter with a client generated UUIDv7 when the caller leaves it out, and the server refuses anything that isn't a UUID.
@@ -53,7 +53,7 @@ public function setDone(string $id, bool $done) { … }
 {{-- Blade --}}
 <ul wire:optimistic.list="tasks">
     @foreach ($this->tasks as $task)
-        <li @optimisticRow($task, ['done']) wire:optimistic.class="opt-pending" wire:optimistic.bind.class="$item.done ? 'is-done' : ''">
+        <li @optirow($task, ['done']) wire:optimistic.class="opt-pending" wire:optimistic.bind.class="$item.done ? 'is-done' : ''">
             <input type="checkbox" @checked($task->done) wire:optimistic.bind.checked="$item.done"
                    wire:click="setDone('{{ $task->id }}', $event.target.checked)">
             {{ $task->text }}
@@ -89,7 +89,7 @@ public function addTask(string $id, string $text) { … }
 {{-- Blade --}}
 <ul wire:optimistic.list="tasks">
     @foreach ($this->tasks as $task)
-        <li @optimisticRow($task)>{{ $task->text }}</li>
+        <li @optirow($task)>{{ $task->text }}</li>
     @endforeach
     <template wire:optimistic.create>
         <li wire:optimistic.class="opt-pending"><span wire:optimistic.text="text"></span> <span class="tag">new</span></li>
@@ -116,7 +116,7 @@ public function deleteTask(string $id) { … }
     Deleted <span x-text="$optimistic.undoable().length"></span>. <button wire:optimistic.undo>Undo</button>
 </div>
 
-{{-- Blade --}}  <li @optimisticRow($task)>{{ $task->text }} <button wire:click="deleteTask('{{ $task->id }}')">×</button></li>
+{{-- Blade --}}  <li @optirow($task)>{{ $task->text }} <button wire:click="deleteTask('{{ $task->id }}')">×</button></li>
 {{-- Alpine --}} <li wire:optimistic.key="task.id"><span x-text="task.text"></span> <button @click="$wire.deleteTask(task.id)">×</button></li>
 ```
 
@@ -135,7 +135,7 @@ public function rename(string $id, string $text)
 
 ```blade
 {{-- Blade --}}
-<li @optimisticRow($task, ['text'])>
+<li @optirow($task, ['text'])>
     <input value="{{ $task->text }}" wire:optimistic.bind.value="$item.text" @input.debounce.400ms="$wire.rename('{{ $task->id }}', $el.value)">
     <span wire:optimistic.show.pending>saving…</span>
     <span wire:optimistic.show.failed x-text="$optimistic.error('{{ $task->id }}')"></span>
@@ -160,7 +160,7 @@ public function rename(string $id, string $text)
 
 ```blade
 {{-- Blade --}}
-<li @optimisticRow($note)>
+<li @optirow($note)>
     <span wire:optimistic.show="$item.pinned">📌</span> {{ $note->title }}
     <button wire:click="pin('{{ $note->id }}')" wire:optimistic.show="! $item.pinned">Pin</button>
     <button wire:click="unpin('{{ $note->id }}')" wire:optimistic.show="$item.pinned">Unpin</button>
@@ -191,7 +191,7 @@ public function moveCard(string $id, string $column) { … }
     @foreach ($columns as $column => $label)
         <ul wire:optimistic.list="cards" wire:optimistic.group="{{ $column }}">
             @foreach ($this->cards->where('column', $column) as $card)
-                <li @optimisticRow($card) wire:optimistic.class="opt-pending">
+                <li @optirow($card) wire:optimistic.class="opt-pending">
                     <button @click="$wire.moveCard($item.id, step($item.column, -1))">←</button>
                     {{ $card->title }}
                     <button @click="$wire.moveCard($item.id, step($item.column, 1))">→</button>
@@ -302,7 +302,7 @@ class NavBadge extends Component
 ```
 
 ```blade
-{{-- Blade (list) --}} <li @optimisticRow($n, ['read_at']) wire:optimistic.bind.class="$item.read_at ? '' : 'unread'">{{ $n->title }}</li>
+{{-- Blade (list) --}} <li @optirow($n, ['read_at']) wire:optimistic.bind.class="$item.read_at ? '' : 'unread'">{{ $n->title }}</li>
 {{-- Alpine (list) --}} <li wire:optimistic.key="n.id" :class="! n.read_at && 'unread'" x-text="n.title"></li>
 {{-- Badge --}}        <span wire:text="unread" wire:show="unread > 0">{{ $unread }}</span>
 ```
@@ -319,7 +319,7 @@ public function archive(array $ids) { … }
 ```blade
 <div x-data="{ selected: [] }">
     <button @click="$wire.archive(selected); selected = []">Archive</button>
-    {{-- Blade --}}  <li @optimisticRow($email)><input type="checkbox" value="{{ $email->id }}" x-model.number="selected"> {{ $email->subject }}</li>
+    {{-- Blade --}}  <li @optirow($email)><input type="checkbox" value="{{ $email->id }}" x-model.number="selected"> {{ $email->subject }}</li>
     {{-- Alpine --}} <li wire:optimistic.key="email.id"><input type="checkbox" :value="email.id" x-model.number="selected"></li>
 </div>
 ```
@@ -345,7 +345,7 @@ public function duplicate(string $id, string $source) { … }
 
 ```blade
 {{-- Blade (no template: the source row is copied) --}}
-<li @optimisticRow($page)><span wire:optimistic.text="title">{{ $page->title }}</span> <button wire:click="duplicate('{{ $page->id }}')">Duplicate</button></li>
+<li @optirow($page)><span wire:optimistic.text="title">{{ $page->title }}</span> <button wire:click="duplicate('{{ $page->id }}')">Duplicate</button></li>
 
 {{-- Alpine --}}
 <li wire:optimistic.key="page.id"><span x-text="page.title"></span> <button @click="$wire.duplicate(page.id)">Duplicate</button></li>
@@ -389,7 +389,7 @@ public function assign(string $id, int $assignee_id) { … }
 
 ```blade
 {{-- Blade --}}
-<li @optimisticRow($issue, ['assignee'])>
+<li @optirow($issue, ['assignee'])>
     {{ $issue->title }} · <span wire:optimistic.text="assignee.name">{{ $issue->assignee?->name }}</span>
     <select @change="$wire.assign('{{ $issue->id }}', +$el.value)">…</select>
 </li>
@@ -425,7 +425,7 @@ public function restore(string $id) { … }
 </ul>
 <ul wire:optimistic.list="trash">
     @foreach ($this->trash as $file)
-        <li @optimisticRow($file)>{{ $file->name }} <button wire:click="restore('{{ $file->id }}')">Restore</button></li>
+        <li @optirow($file)>{{ $file->name }} <button wire:click="restore('{{ $file->id }}')">Restore</button></li>
     @endforeach
 </ul>
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Livewire\Livewire;
 
 /**
- * Renders the attributes of `@optimisticRow($item, ['extra', 'fields'])`:
+ * Renders the attributes of `@optirow($item, ['extra', 'fields'])`:
  * the row's wire:key and the fields the client needs to sort, group and
  * evaluate `$item` expressions without having the list's data.
  */

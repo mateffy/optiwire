@@ -27,7 +27,7 @@ class OptiwireServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        Blade::directive('optimisticRow', fn ($expression) => "<?php echo \\Mateffy\\Optiwire\\Row::attributes({$expression}); ?>");
+        Blade::directive('optirow', fn ($expression) => "<?php echo \\Mateffy\\Optiwire\\Row::attributes({$expression}); ?>");
 
         Route::get(config('optiwire.route', 'optiwire/optiwire.js'), fn () => Utils::pretendResponseIsFile(SupportOptiwire::scriptPath()))
             ->name('optiwire.script');

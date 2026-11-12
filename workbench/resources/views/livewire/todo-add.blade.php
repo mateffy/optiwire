@@ -17,7 +17,7 @@ public function addTask(string $id, string $text) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="tasks" data-test="blade-list">
             @foreach ($this->tasks as $task)
-                <li @optimisticRow($task) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed"
+                <li @optirow($task) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed"
                     wire:optimistic.bind.class="$item.done ? 'is-done' : ''">
                     <input type="checkbox" @checked($task->done) wire:optimistic.bind.checked="$item.done"
                            wire:click="setDone('{{ $task->id }}', $event.target.checked)">

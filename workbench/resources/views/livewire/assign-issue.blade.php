@@ -8,7 +8,7 @@ public function assign(string $id, int $assignee_id) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="issues" data-test="blade-list">
             @foreach ($this->issues as $issue)
-                <li @optimisticRow($issue, ['assignee']) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
+                <li @optirow($issue, ['assignee']) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
                     <span class="dot" style="background: {{ $issue->assignee?->color ?? '#cbd5e1' }}" wire:optimistic.bind.style="'background: ' + ($item.assignee?.color ?? '#cbd5e1')"></span>
                     <span class="grow">{{ $issue->title }} · <span wire:optimistic.text="assignee.name">{{ $issue->assignee?->name }}</span></span>
                     <select @change="$wire.assign('{{ $issue->id }}', +$el.value)">

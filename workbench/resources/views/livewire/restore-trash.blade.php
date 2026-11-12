@@ -11,7 +11,7 @@ public function restore(string $id) { … }
                 <h3>Files</h3>
                 <ul class="list" wire:optimistic.list="files" data-test="blade-files">
                     @foreach ($this->files as $file)
-                        <li @optimisticRow($file) class="row">
+                        <li @optirow($file) class="row">
                             <span class="grow">{{ $file->name }}</span>
                             <button class="btn small ghost" wire:click="trashFile('{{ $file->id }}')">Trash</button>
                         </li>
@@ -25,7 +25,7 @@ public function restore(string $id) { … }
                 <h3>Trash</h3>
                 <ul class="list" wire:optimistic.list="trash" data-test="blade-trash">
                     @foreach ($this->trash as $file)
-                        <li @optimisticRow($file) class="row">
+                        <li @optirow($file) class="row">
                             <span class="grow">{{ $file->name }}</span>
                             <button class="btn small ghost" wire:click="restore('{{ $file->id }}')">Restore</button>
                         </li>

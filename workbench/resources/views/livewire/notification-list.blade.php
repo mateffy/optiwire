@@ -15,7 +15,7 @@ public function markAllRead() { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="notifications" data-test="blade-list">
             @foreach ($this->notifications as $notification)
-                <li @optimisticRow($notification, ['read_at']) class="row" wire:optimistic.bind.class="$item.read_at ? '' : 'unread'"
+                <li @optirow($notification, ['read_at']) class="row" wire:optimistic.bind.class="$item.read_at ? '' : 'unread'"
                     wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
                     <span class="grow">{{ $notification->title }}</span>
                     <button class="btn small ghost" wire:click="markRead({{ $notification->id }})" wire:optimistic.show="! $item.read_at">Read</button>

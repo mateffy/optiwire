@@ -1,1 +1,1 @@
-<ul><li @optimisticRow((object) ['uuid' => 'u-1', 'title' => 'Object'])></li></ul>
+<ul><li @optirow((object) ['uuid' => 'u-1', 'title' => 'Object'])></li></ul>

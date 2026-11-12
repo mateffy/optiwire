@@ -13,7 +13,7 @@ public function archive(array $ids) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="emails" data-test="blade-list">
             @foreach ($this->emails as $email)
-                <li @optimisticRow($email) class="row">
+                <li @optirow($email) class="row">
                     <label><input type="checkbox" value="{{ $email->id }}" x-model.number="selected"> {{ $email->subject }}</label>
                 </li>
             @endforeach

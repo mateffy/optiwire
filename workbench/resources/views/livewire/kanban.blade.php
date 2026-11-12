@@ -15,7 +15,7 @@ public function moveCard(string $id, string $column) { … }
                     <h3>{{ $label }}</h3>
                     <ul class="list" wire:optimistic.list="cards" wire:optimistic.group="{{ $column }}" data-test="blade-column-{{ $column }}">
                         @foreach ($this->cards->where('column', $column) as $card)
-                            <li @optimisticRow($card) class="row card-item" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
+                            <li @optirow($card) class="row card-item" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
                                 <button class="btn small ghost" :disabled="! step($item.column, -1)" @click="$wire.moveCard($item.id, step($item.column, -1))">←</button>
                                 <span class="grow">{{ $card->title }}</span>
                                 <button class="btn small ghost" :disabled="! step($item.column, 1)" @click="$wire.moveCard($item.id, step($item.column, 1))">→</button>

@@ -14,7 +14,7 @@ public function deleteTask(string $id) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="tasks" data-test="blade-list">
             @foreach ($this->tasks as $task)
-                <li @optimisticRow($task) class="row">
+                <li @optirow($task) class="row">
                     <span>{{ $task->text }}</span>
                     <button class="btn small ghost" wire:click="deleteTask('{{ $task->id }}')">×</button>
                 </li>

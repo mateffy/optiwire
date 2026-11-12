@@ -8,7 +8,7 @@ public function duplicate(string $id, string $source) { … }
     <x-slot:blade>
         <ul class="list" wire:optimistic.list="pages" data-test="blade-list">
             @foreach ($this->pages as $page)
-                <li @optimisticRow($page) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
+                <li @optirow($page) class="row" wire:optimistic.class="opt-pending" wire:optimistic.class.failed="opt-failed">
                     <span class="grow" wire:optimistic.text="title">{{ $page->title }}</span>
                     <button class="btn small ghost" wire:click="duplicate('{{ $page->id }}')">Duplicate</button>
                 </li>
